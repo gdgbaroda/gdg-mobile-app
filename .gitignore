@@ -1,11 +1,20 @@
+/api/.directory
+*~
+/api/.idea
+/api/.idea/*
+
+# npm
+/api/*.log
+/api/*.gz
+
 .directory
 *~
 .idea
 .idea/*
 
 # npm
-node_modules
-package-lock.json
-yarn.lock
+/api/node_modules
+/api/package-lock.json
+/api/yarn.lock
 *.log
 *.gz
