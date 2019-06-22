@@ -1,0 +1,11 @@
+.directory
+*~
+.idea
+.idea/*
+
+# npm
+node_modules
+package-lock.json
+yarn.lock
+*.log
+*.gz
