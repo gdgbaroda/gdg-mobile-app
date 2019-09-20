@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:raize/api/api_manager.dart';
@@ -9,7 +8,10 @@ import 'models/event_list_item_model.dart';
 import 'models/event_list_model.dart';
 
 class EventListWidget extends StatefulWidget {
+  final EventListModel result;
   static String tag = 'eventList-screen';
+
+  EventListWidget({Key key, this.result}) : super(key: key);
 
   @override
   _EventListWidget createState() => new _EventListWidget();
@@ -18,6 +20,7 @@ class EventListWidget extends StatefulWidget {
 class _EventListWidget extends State<EventListWidget> {
   EventListModel _items;
   bool _isLoading = true;
+
   //add an item to the list
   void _addItem(item) {
     if (item != null) {
@@ -33,16 +36,15 @@ class _EventListWidget extends State<EventListWidget> {
     super.initState();
     //this will be called at the start of the activity,it will add dummy data to our list
 
-       // use the api manager to fetch upcoming events
-    APIManager.getEvents().then((result)
-    {
-        // print("Events from service: " + result.toJson().toString());
-
+    // use the api manager to fetch upcoming events
+    if (this.widget.result == null) {
+      APIManager.getEvents().then((result) {
         // add the events (group wise) to the list of items
         _addItem(result.toJson());
-
-    });
-
+      });
+    } else {
+      _addItem(this.widget.result.toJson());
+    }
   }
 
   //creates view for each item in listview
@@ -67,8 +69,8 @@ class _EventListWidget extends State<EventListWidget> {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: eventList.events.length,
           itemBuilder: (BuildContext context, int index) {
-            return _createEventItem(
-                context, eventList.events[index], eventList.thumbnail,eventList.title);
+            return _createEventItem(context, eventList.events[index],
+                eventList.thumbnail, eventList.title);
           },
         ),
 
@@ -78,15 +80,16 @@ class _EventListWidget extends State<EventListWidget> {
   }
 
   //creates view for each item in listview
-  Widget _createEventItem(
-      BuildContext context, EventModel eventModel, String thumbnail,String groupName) {
+  Widget _createEventItem(BuildContext context, EventModel eventModel,
+      String thumbnail, String groupName) {
     return new GestureDetector(
       //listens for on tap
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EventDetailsWidget(eventModel: eventModel,groupName:groupName),
+            builder: (context) => EventDetailsWidget(
+                eventModel: eventModel, groupName: groupName),
             //builder: (context) => new EventDetailsWidget()
           ),
         );
@@ -111,7 +114,6 @@ class _EventListWidget extends State<EventListWidget> {
                   ))),
 
 //          new Divider(height: 15.0,color: Colors.black,),
-
         ],
       ),
     );
@@ -134,14 +136,12 @@ class _EventListWidget extends State<EventListWidget> {
           ),
         ),
         SizedBox(height: 10.0),
-        Text(
-          eventModel.description,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 13.0,
-          )
-        ),
+        Text(eventModel.description,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 13.0,
+            )),
       ],
     );
   }

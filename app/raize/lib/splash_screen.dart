@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:raize/api/api_manager.dart';
 import 'package:raize/sign_in.dart';
 import 'package:raize/shared_pref.dart';
 import 'package:raize/event_list_screen.dart';
@@ -16,19 +17,36 @@ class _SplashWidget extends State<SplashWidget> {
   @override
   initState() {
     super.initState();
-//    var temp = await SharedPref.getAccessToken();
-    var accessToken;
-    SharedPref.getAccessToken().then(accessToken);
-    Timer(
-        Duration(seconds: 5),
-        () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: accessToken == null || accessToken ==""
-                      ? (context) => SignInWidget()
-                      : (context) => EventListWidget() //goes to the next page
-                  ),
-            ));
+    SharedPref.getAccessToken().then((token) {
+      navigationDivider(token);
+    });
+  }
+
+  /*
+  Load data while showing splash
+   */
+  navigationDivider(token) {
+    var countDownSplash = 0;
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      countDownSplash++;
+      if (token == null || token == "") {
+        if (countDownSplash > 4) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => SignInWidget()));
+          timer.cancel();
+        }
+      } else {
+        if (countDownSplash > 4) {
+          APIManager.getEvents().then((result) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EventListWidget(result: result)));
+          });
+          timer.cancel();
+        }
+      }
+    });
   }
 
   @override
@@ -50,16 +68,16 @@ class _SplashWidget extends State<SplashWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 50.0,
-                        child: Image.asset('images/icon.png')
-                   
-                       // child: Icon(
-                       //  Icons.apps,
-                       // color: Colors.blueAccent,
-                       //size: 50.0,
-                       // ),
-                      ),
+                          backgroundColor: Colors.white,
+                          radius: 50.0,
+                          child: Image.asset('images/icon.png')
+
+                          // child: Icon(
+                          //  Icons.apps,
+                          // color: Colors.blueAccent,
+                          //size: 50.0,
+                          // ),
+                          ),
                       Padding(
                         padding: EdgeInsets.only(top: 10.0),
                       ),

@@ -36,7 +36,7 @@ class _SignInWidget extends State<SignInWidget> {
             flutterWebviewPlugin.close();
             flutterWebviewPlugin.dispose();
 
-            Navigator.of(context).pushNamed(EventListWidget.tag);
+            Navigator.of(context).pushReplacementNamed(EventListWidget.tag);
           }
         });
       }
