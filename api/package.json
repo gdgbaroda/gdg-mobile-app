@@ -6,19 +6,24 @@
     "start": "node bin/www"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
     "axios": "^0.19.0",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
+    "csv-parser": "^2.3.0",
+    "csv-writer": "^1.5.0",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-session": "^1.16.2",
     "http-errors": "~1.6.3",
+    "instamojo-webhook": "^1.0.0",
+    "jsonfile": "^5.0.0",
     "mongoose": "^5.5.15",
     "morgan": "~1.9.1",
     "passport": "^0.4.0",
-    "passport-meetup-oauth2": "^0.0.2",
     "passport-oauth2-meetup": "^1.1.0",
-    "passport-youtube-v3": "^2.1.0",
     "pug": "2.0.0-beta11",
-    "request": "^2.88.0",
-    "social-login": "^0.2.8"
+    "qrcode": "^1.4.1",
+    "request": "^2.88.0"
   }
 }

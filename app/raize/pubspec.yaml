@@ -23,10 +23,23 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+  flutter_webview_plugin: 0.3.2
+  html: ^0.14.0+2
+  http: 0.12.0+2
+  shared_preferences: 0.5.3+4
+  simple_permissions: ^0.1.2
+  barcode_scan: ^0.0.4
+  url_launcher: ^5.1.1
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.7.3"
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "images/icon.png"
 
 
 # For information on the generic Dart part of this file, see the
@@ -39,10 +52,10 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/person.jpeg
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+    - images/icon.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
